@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshCollider))]
-
+[RequireComponent(typeof(NavMeshSurface))]
 public class Mesh_Generator : MonoBehaviour
 {
     Mesh mesh;
@@ -27,6 +28,7 @@ public class Mesh_Generator : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         CreateShape();
         UpdateMesh();
+        BuildNavMesh();
 
     }
 
@@ -39,7 +41,7 @@ public class Mesh_Generator : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                float y = Mathf.PerlinNoise(x * .3f, z * .3f) * 2f;
+                float y = Mathf.PerlinNoise(x * .1f, z * .1f) * 1f;
                 vertices[i] = new Vector3(x, y, z);
 
                 if (y > maxTerrianHeight)
@@ -101,6 +103,13 @@ public class Mesh_Generator : MonoBehaviour
 
     }
 
+
+    void BuildNavMesh()
+    {
+        NavMeshSurface surface = GetComponent<NavMeshSurface>();
+        surface.BuildNavMesh();
+
+    }
     /*
     private void OnDrawGizmos()
     {
