@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
+
+[RequireComponent(typeof(NavMeshAgent))]
 
 public class Animal : MonoBehaviour
 {
@@ -20,6 +24,11 @@ public class Animal : MonoBehaviour
     //Threshold at which animal will seek a mate.
     public float matingThreshold = 5;
 
+    public bool hasTarget = false;
+
+    //Navigation target
+    public GameObject target;
+    public NavMeshAgent agent;
     public enum behaviours
     {
         random = 0,
@@ -29,8 +38,8 @@ public class Animal : MonoBehaviour
 
     public enum genders
     {
-        male=0,
-        female=1
+        male = 0,
+        female = 1
     }
 
     //Random by default
@@ -42,30 +51,33 @@ public class Animal : MonoBehaviour
 
     void Start()
     {
-
+        agent.speed = this.speed;
+        target = new GameObject();
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawLine(this.transform.position, target.transform.position);
+
         /*
         We need to determine what behaviour we are going with.
         We default to random wandering about. If we hit any thresholds we
         switch to that behaviour unit its done.
         */
-
         //If we have a random behaviour run an analysis to determine if we should switch.
-        if(behaviour == behaviours.random)
+        if (behaviour == behaviours.random)
+        {
+
+            random();
+        }
+
+        if (behaviour == behaviours.mating)
         {
 
         }
 
-        if(behaviour == behaviours.mating)
-        {
-
-        }
-
-        if(behaviour == behaviours.feeding)
+        if (behaviour == behaviours.feeding)
         {
 
         }
@@ -76,6 +88,29 @@ public class Animal : MonoBehaviour
     //We select a random point with x units and go there.
     void random()
     {
+
+        if (hasTarget == false)
+        {
+            //Find a random target
+            Vector2 randomXY = Random.insideUnitCircle.normalized;
+            Vector3 randomXZ = new Vector3(randomXY.x, 0f, randomXY.y);
+
+            NavMeshHit hit;
+            NavMesh.Raycast(this.transform.position, randomXZ * sightRadius, out hit, NavMesh.AllAreas);
+
+            target.transform.position = hit.position;
+
+
+            agent.SetDestination(target.transform.position);
+            hasTarget = true;
+        }
+
+        if(Vector3.Distance(target.transform.position, this.transform.position) < 2)
+        {
+
+            hasTarget = false;
+            
+        }
 
     }
 

@@ -7,7 +7,7 @@ public class UI_Script : MonoBehaviour
     [Header("List of spawnables")]
     public GameObject bush;
     public GameObject tree;
-
+    public GameObject rabbit;
     [Header("Spawner Script Ref")]
     public GenerateObject objectGen;
 
@@ -19,5 +19,10 @@ public class UI_Script : MonoBehaviour
     public void selectBush()
     {
         objectGen.prefab = bush;
+    }
+
+    public void selectRabbit()
+    {
+        objectGen.prefab = rabbit;
     }
 }
