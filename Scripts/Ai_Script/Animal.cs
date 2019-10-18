@@ -92,11 +92,13 @@ public class Animal : MonoBehaviour
         if (hasTarget == false)
         {
             //Find a random target
-            Vector2 randomXY = Random.insideUnitCircle.normalized;
-            Vector3 randomXZ = new Vector3(randomXY.x, 0f, randomXY.y);
+
+
+            Vector3 direction = ((Random.insideUnitSphere.normalized * sightRadius) + this.transform.position);
+           
 
             NavMeshHit hit;
-            NavMesh.Raycast(this.transform.position, randomXZ * sightRadius, out hit, NavMesh.AllAreas);
+            NavMesh.Raycast(this.transform.position, direction, out hit, NavMesh.AllAreas);
 
             target.transform.position = hit.position;
 
