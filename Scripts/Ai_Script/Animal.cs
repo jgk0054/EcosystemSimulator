@@ -29,6 +29,9 @@ public class Animal : MonoBehaviour
     //Navigation target
     public GameObject target;
     public NavMeshAgent agent;
+
+
+    public LayerMask foodMask;
     public enum behaviours
     {
         random = 0,
@@ -66,6 +69,14 @@ public class Animal : MonoBehaviour
         switch to that behaviour unit its done.
         */
         //If we have a random behaviour run an analysis to determine if we should switch.
+
+        if (this.hunger < hungerThreshold)
+        {
+            this.behaviour = behaviours.feeding;
+            //Always null out target on behaviour change.
+            hasTarget = false;
+        }
+
         if (behaviour == behaviours.random)
         {
 
@@ -79,10 +90,15 @@ public class Animal : MonoBehaviour
 
         if (behaviour == behaviours.feeding)
         {
-
+            feeding();
         }
 
 
+    }
+
+    private void FixedUpdate()
+    {
+        this.hunger -= this.bmr / 100;
     }
 
     //We select a random point with x units and go there.
@@ -95,7 +111,7 @@ public class Animal : MonoBehaviour
 
 
             Vector3 direction = ((Random.insideUnitSphere.normalized * sightRadius) + this.transform.position);
-           
+
 
             NavMeshHit hit;
             NavMesh.Raycast(this.transform.position, direction, out hit, NavMesh.AllAreas);
@@ -107,19 +123,39 @@ public class Animal : MonoBehaviour
             hasTarget = true;
         }
 
-        if(Vector3.Distance(target.transform.position, this.transform.position) < 2)
+        if (Vector3.Distance(target.transform.position, this.transform.position) < 2)
         {
 
             hasTarget = false;
-            
+
         }
 
     }
 
+
     //We find the nearest food and eat it.
     void feeding()
     {
+        //Firstly we need to find food.
 
+
+        // Cast a sphere wrapping character controller 10 meters forward
+        // to see if it is about to hit anything.
+        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, this.sightRadius);
+        int i = 0;
+        Transform nearest = null;
+        float nearDist = 9999;
+        while (i < hitColliders.Length)
+        {
+            float thisDist = (transform.position - hitColliders[i].transform.position).sqrMagnitude;
+            if (thisDist < nearDist)
+            {
+                nearDist = thisDist;
+                nearest = hitColliders[i].transform;
+            }
+            i++;
+        }
+        Debug.Log("Nearest: " + nearest);
     }
 
     //We find the nearest neighbor of the same species and opposite gender and mate with it.

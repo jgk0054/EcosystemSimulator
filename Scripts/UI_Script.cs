@@ -8,6 +8,7 @@ public class UI_Script : MonoBehaviour
     public GameObject bush;
     public GameObject tree;
     public GameObject rabbit;
+    public GameObject food;
     [Header("Spawner Script Ref")]
     public GenerateObject objectGen;
 
@@ -24,5 +25,10 @@ public class UI_Script : MonoBehaviour
     public void selectRabbit()
     {
         objectGen.prefab = rabbit;
+    }
+
+    public void selectFood()
+    {
+        objectGen.prefab = food;
     }
 }
