@@ -155,9 +155,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  hunger: 7
+  hunger: 100
   mating_desire: 0
-  speed: 5
+  speed: 2
   bmr: 0.1
   sightRadius: 1000
   hungerThreshold: 7
