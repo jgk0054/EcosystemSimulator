@@ -56,6 +56,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -122,7 +123,7 @@ GameObject:
   - component: {fileID: 2291785807796028884}
   m_Layer: 0
   m_Name: Rabbit
-  m_TagString: Untagged
+  m_TagString: Rabbit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -159,16 +160,13 @@ MonoBehaviour:
   mating_desire: 0
   speed: 2
   bmr: 0.1
-  sightRadius: 1000
+  sightRadius: 10
+  fov: 90
   hungerThreshold: 7
   matingThreshold: 5
   hasTarget: 0
   target: {fileID: 0}
   agent: {fileID: 2291785807796028884}
-  foodMask:
-    serializedVersion: 2
-    m_Bits: 256
-  behaviour: 0
   gender: 1
   objective: {x: 0, y: 0, z: 0}
 --- !u!195 &2291785807796028884
