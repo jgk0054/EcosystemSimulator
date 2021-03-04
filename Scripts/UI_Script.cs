@@ -12,6 +12,17 @@ public class UI_Script : MonoBehaviour
     [Header("Spawner Script Ref")]
     public GenerateObject objectGen;
 
+    [Header("UI Elements")]
+    public GameObject SpawnMenu;
+    public GameObject MainMenu;
+
+    public bool canSpawn = false;
+    public void toggleSpawnMenu()
+    {
+        canSpawn = !canSpawn;
+        SpawnMenu.SetActive(canSpawn);
+        MainMenu.SetActive(!canSpawn);
+    }
     public void selectTree()
     {
         objectGen.prefab = tree;
